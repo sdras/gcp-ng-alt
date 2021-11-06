@@ -1,0 +1,98 @@
+body {
+  background: #222;
+  color: white;
+  padding: 20px;
+}
+
+* {
+  font-family: "Barlow", helvetica, sans-serif;
+}
+
+.screen-reader-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+button {
+  background: #bf310b;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-style: italic;
+  font-weight: 300;
+  font-family: "Lato", sans-serif;
+  margin: 10px 0;
+}
+
+button.more {
+  cursor: pointer;
+  color: #95a2da;
+  background: none;
+  border: 0;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+button.useone {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  margin-top: 18px;
+  color: #e8d499;
+  font-size: 18px;
+  transition: 0.25s all ease;
+  &:hover {
+    color: #ef9d0e;
+  }
+}
+
+label {
+  font-size: 18px;
+}
+
+input {
+  margin: 10px 0 0;
+}
+
+p,
+h3 {
+  margin: 5px 0 0;
+}
+
+h1 span {
+  font-weight: 300;
+  font-size: 24px;
+  display: block;
+  margin: 15px 0;
+}
+
+hr {
+  opacity: 0.2;
+  width: 100%;
+  margin-top: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: #fec802;
+}
