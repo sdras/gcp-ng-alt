@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     uiState: "idle"
   };
 
-  analysis: any = [];
+  vision: any = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private dataService: DataService) { }
 
@@ -27,17 +27,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   visionReq() {
     console.log('visionReq called')
+    this.home.uiState = 'loading'
     this.dataService.sendGetRequest(this.home.image).pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      console.log(data);
-      console.log(environment.production);
-      this.analysis = data;
+      this.vision = data;
+      this.home.uiState = 'completed'
       console.log(`analysis: ${data}`)
-      this.home.altText = this.analysis.analysis
+      this.home.altText = this.vision.analysis
     })  
   }
 
+  useUrlImg() {
+    this.visionReq();
+  }
+
   useMine() {
-    console.log('use mine')
     this.home.image =
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg";
     this.visionReq();
@@ -45,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   fileUpload(e: any) {
     console.log('file upload called')
+    console.log(`e is ${e}`)
     var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
     console.log(files)

@@ -108,7 +108,7 @@ img {
 //main
 
 main {
-  padding: 20px;
+  padding: 20px 15vw;
   background: #333;
   margin: 20px;
   height: 85vh;
@@ -124,6 +124,7 @@ main {
 
 main p {
   width: 70%;
+  font-size: 18px;
   text-align: center;
 }
 
@@ -161,4 +162,5 @@ main p {
 
 .status {
   text-transform: capitalize;
+  font-size: 16px;
 }

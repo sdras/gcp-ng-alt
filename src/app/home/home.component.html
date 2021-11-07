@@ -15,13 +15,16 @@
 
         <section class="spacing">
           <label for="url" style="padding-right: 10px;">Or enter a url:</label>
-          <input [(ngModel)]="home.image" (keyup.enter)="visionReq()" type="text" id="url" />
+          <input [(ngModel)]="home.image" (keyup.enter)="useUrlImg()" type="text" id="url" />
         </section>
 
         <section class="spacing">
           <p><button class="useone" (click)="useMine()">Or use one of mine ></button></p>
-          <p *ngIf="home.image.length > 0" class="load">Loading
-          <app-loading></app-loading>
+        </section>
+
+        <section *ngIf="home.uiState === 'loading'" class="spacing">
+          <p class="load">Loading
+            <app-loading></app-loading>
           </p>
         </section>
       </div>
@@ -31,7 +34,7 @@
       </ng-template>
     </section>
 
-    <section *ngIf="home.image && !home.altText" class="fail">
+    <section *ngIf="home.uiState === 'failed'" class="fail">
       <p>Nothing was detected!<br> Sorry about that, care to...</p>
       <button (click)="removeImage($event)">Try again!</button>
     </section>
