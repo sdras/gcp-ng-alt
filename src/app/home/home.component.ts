@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
 import { Home } from '../home'
 
@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   @ViewChild('selectimg') selectimg:any;
   
   home: Home = {
@@ -23,9 +23,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   vision: any = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private dataService: DataService) { }
-
-  ngOnInit() {
-  }
 
   visionReq(imgObj: object) {
     console.log('visionReq called')
@@ -62,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.home.image = reader.result
-      // take the result, make sure it's a string and then string out the beginning
+      // take the result, make sure it's a string, and then remove the beginning
       // because GCP expects just the string
       img = reader.result?.toString().replace("data:image/jpeg;base64,", "");
       this.visionReq({ imageData: img });
