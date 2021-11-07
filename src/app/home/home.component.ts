@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
 import { Home } from '../home'
 
@@ -11,6 +11,8 @@ import { Subject } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('selectimg') selectimg:any;
+  
   home: Home = {
     image: "",
     imageURL: "",
@@ -71,15 +73,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
   }
   
-  removeImage(e:any) {
+  removeImage() {
     this.home.image = "";
     this.home.imageURL = "";
     this.home.altText = "";
     this.home.uiState = "idle"
 
     setTimeout(() => {
-      // TODO: get the ref
-      // this.$refs.selectimg.focus();
+      this.selectimg.nativeElement.focus();
     }, 1000);
   }
 

@@ -5,12 +5,11 @@
     <section>
       <div *ngIf="!home.altText; else remove">
         <section class="upload spacing">
-          <h2 class="select" ref="selectimg">Select an image here: </h2>
+          <h2 class="select" #selectimg>Select an image here: </h2>
           <input (change)="fileUpload($event)" type="file" name="file" id="file" class="inputfile" />
           <label for="file" aria-label="upload image" class="plus">
             <app-plusicon></app-plusicon>
           </label>
-          <p>{{ home.image }}</p>
         </section>
         <!--upload-->
 
@@ -31,13 +30,13 @@
       </div>
 
       <ng-template #remove>
-        <button (click)="removeImage($event)">Try it again!</button>
+        <button (click)="removeImage()">Try it again!</button>
       </ng-template>
     </section>
 
     <section *ngIf="home.uiState === 'failed'" class="fail">
       <p>Nothing was detected!<br> Sorry about that, care to...</p>
-      <button (click)="removeImage($event)">Try again!</button>
+      <button (click)="removeImage()">Try again!</button>
     </section>
   </aside>
 
