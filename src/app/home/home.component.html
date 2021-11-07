@@ -6,16 +6,17 @@
       <div *ngIf="!home.altText; else remove">
         <section class="upload spacing">
           <h2 class="select" ref="selectimg">Select an image here: </h2>
-          <input (ngModelChange)="fileUpload($event)" type="file" name="file" id="file" class="inputfile" />
+          <input (change)="fileUpload($event)" type="file" name="file" id="file" class="inputfile" />
           <label for="file" aria-label="upload image" class="plus">
             <app-plusicon></app-plusicon>
           </label>
+          <p>{{ home.image }}</p>
         </section>
         <!--upload-->
 
         <section class="spacing">
           <label for="url" style="padding-right: 10px;">Or enter a url:</label>
-          <input [(ngModel)]="home.image" (keyup.enter)="useUrlImg()" type="text" id="url" />
+          <input [(ngModel)]="home.imageURL" (keyup.enter)="useUrlImg()" type="text" id="url" />
         </section>
 
         <section class="spacing">

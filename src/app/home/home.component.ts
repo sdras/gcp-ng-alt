@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { environment } from './../../environments/environment';
 import { DataService } from '../data.service';
 import { Home } from '../home'
 
@@ -14,6 +13,7 @@ import { Subject } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   home: Home = {
     image: "",
+    imageURL: "",
     altText: "",
     uiState: "idle"
   };
@@ -25,56 +25,61 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  visionReq() {
+  visionReq(imgObj: object) {
     console.log('visionReq called')
     this.home.uiState = 'loading'
-    this.dataService.sendGetRequest(this.home.image).pipe(takeUntil(this.destroy$)).subscribe((data) => {
+    this.dataService.sendRequest(imgObj).pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.vision = data;
       this.home.uiState = 'completed'
-      console.log(`analysis: ${data}`)
+      console.log(`analysis: ${JSON.stringify(data, null, 2)}`)
       this.home.altText = this.vision.analysis
     })  
   }
 
   useUrlImg() {
-    this.visionReq();
+    this.home.image = this.home.imageURL;
+    this.visionReq({ imageUrl: this.home.imageURL });
   }
 
   useMine() {
-    this.home.image =
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg";
-    this.visionReq();
+    let mine = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg"
+    this.home.image = mine;
+    this.visionReq({ imageUrl: mine });
   }
 
   fileUpload(e: any) {
-    console.log('file upload called')
-    console.log(`e is ${e}`)
     var files = e.target.files || e.dataTransfer.files;
-    if (!files.length) return;
-    console.log(files)
-    this.home.image = files[0];
-    this.createImage(e);
-    //this.visionReq();
+    if (!files.length) console.warn('Something went wrong reading the file');
+    this.createImage(files[0]);
   }
   
-  createImage(e:any) {
-    var image = new Image();
-    var reader = new FileReader();
-
-    reader.onload = e => {
-      console.log(`createImage e is ${e}`)
-      //this.home.image = e.target.result;
+  createImage(file:any) {
+    let reader = new FileReader();
+    let img: any
+    
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.home.image = reader.result
+      // take the result, make sure it's a string and then string out the beginning
+      // because GCP expects just the string
+      img = reader.result?.toString().replace("data:image/jpeg;base64,", "");
+      this.visionReq({ imageData: img });
     };
-    reader.readAsDataURL(this.home.image);
+
+    reader.onerror = (error) => {
+      console.log('Error: ', error);
+    };
   }
   
   removeImage(e:any) {
     this.home.image = "";
+    this.home.imageURL = "";
     this.home.altText = "";
     this.home.uiState = "idle"
 
     setTimeout(() => {
-      //this.$refs.selectimg.focus();
+      // TODO: get the ref
+      // this.$refs.selectimg.focus();
     }, 1000);
   }
 
