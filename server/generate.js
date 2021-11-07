@@ -1,16 +1,45 @@
-var faker = require('faker');
+'use strict';
 
-var database = { products: []};
+process.env.GOOGLE_APPLICATION_CREDENTIALS = '/Users/sdrasner/misc/ml-ai.json';
 
-for (var i = 1; i<= 300; i++) {
-  database.products.push({
-    id: i,
-    name: faker.commerce.productName(),
-    description: faker.lorem.sentences(),
-    price: faker.commerce.price(),
-    imageUrl: "https://source.unsplash.com/1600x900/?product",
-    quantity: faker.datatype.number()
-  });
+function main() {
+  async function useVision() {
+    const database = { analysis: [] };
+    
+    const vision = require('@google-cloud/vision');
+    const client = new vision.ImageAnnotatorClient();
+
+    const [res] = await client.labelDetection(
+      'https://pbs.twimg.com/media/FDB8u6yWYAMr7DI?format=jpg&name=900x900'
+    );
+
+    // perform label detection
+    const labels = res.labelAnnotations;
+
+    // log the labels
+    // console.log('Labels:');
+    const labelArr = labels.map(label => label.description);
+    const labelDesc = `Google sees ${labelArr.join(', ')}`
+    database.analysis.push({'labels': labelDesc})
+
+    // perform text detection
+    const [result] = await client.textDetection(
+      'https://pbs.twimg.com/media/FDB8u6yWYAMr7DI?format=jpg&name=900x900'
+    );
+    const detections = result.textAnnotations;
+    const [text, ...others] = detections;
+    const fullText = text.description.replace(/(\r\n|\n|\r)/gm, " ");
+    database.analysis.push({'text': `Google reads ${fullText}`})
+
+    console.log(JSON.stringify(database, null, 2));
+  }
+
+  useVision();
 }
 
-console.log(JSON.stringify(database));
+process.on('unhandledRejection', err => {
+  console.error(err.message);
+  process.exitCode = 1;
+});
+
+main(...process.argv.slice(2));

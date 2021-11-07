@@ -1,0 +1,13 @@
+.loading {
+  animation: load 1s infinite both;
+  transform-origin: 50% 50%;
+}
+
+@keyframes load {
+  35% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

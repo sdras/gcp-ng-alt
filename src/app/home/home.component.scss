@@ -45,6 +45,10 @@ $red: #bf310b;
 }
 //base layout end
 
+.spacing {
+  margin-top: 20px;
+}
+
 .load {
   margin: 15px 0;
 }
@@ -140,20 +144,6 @@ main p {
 .select {
   margin: 10px 0 18px;
   font-weight: 300;
-}
-
-.loading {
-  animation: load 1s infinite both;
-  transform-origin: 50% 50%;
-}
-
-@keyframes load {
-  35% {
-    opacity: 0.35;
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .fade-enter-active {

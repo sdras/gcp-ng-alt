@@ -6,34 +6,26 @@
     <hr>
 
     <section *ngIf="!home.noText2">
-      <div *ngIf="home.desc; else remove">
-        <div class="upload">
+      <div *ngIf="!home.desc; else remove">
+        <section class="upload spacing">
           <h2 class="select" ref="selectimg">Select an image here: </h2>
           <input (ngModelChange)="fileUpload($event)" type="file" name="file" id="file" class="inputfile" />
-          <label for="file" aria-label="upload image">
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 32 32" aria-labelledby="plus"
-              role="presentation">
-              <title id="plus">Plus Sign</title>
-              <circle cx="15" cy="15" r="15" fill="#bf310b" />
-              <line x1="15" x2="15" y1="10" y2="20" fill="none" stroke-weight="2" stroke="#ffffff" />
-              <line x1="10" x2="20" y1="15" y2="15" fill="none" stroke-weight="2" stroke="#ffffff" />
-            </svg>
-          </label>
-        </div>
+          <app-plusicon></app-plusicon>
+        </section>
         <!--upload-->
-        <label for="url">Or enter a url:</label><br>
-        <input (keyup.enter)="visionReq()" type="text" id="url" />
-        <!-- older version <input type="text" id="url" [(ngModel)]="home.image" #ctrl="ngModel" (keyup.enter)="visionReq()" /> -->
-        <button class="useone" (click)="useMine()">Or use one of mine</button>
-        <p *ngIf="home.image.length > 0" class="load">Loading
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32" aria-labelledby="loading"
-            role="presentation" class="loading">
-            <title id="loading">spinner9</title>
-            <path fill="#ffffff"
-              d="M16 0c-8.711 0-15.796 6.961-15.995 15.624 0.185-7.558 5.932-13.624 12.995-13.624 7.18 0 13 6.268 13 14 0 1.657 1.343 3 3 3s3-1.343 3-3c0-8.837-7.163-16-16-16zM16 32c8.711 0 15.796-6.961 15.995-15.624-0.185 7.558-5.932 13.624-12.995 13.624-7.18 0-13-6.268-13-14 0-1.657-1.343-3-3-3s-3 1.343-3 3c0 8.837 7.163 16 16 16z">
-            </path>
-          </svg>
-        </p>
+
+        <section class="spacing">
+          <label for="url" style="padding-right: 10px;">Or enter a url:</label>
+          <input (keyup.enter)="visionReq()" type="text" id="url" />
+        </section>
+
+        <section class="spacing">
+          <!-- older version <input type="text" id="url" [(ngModel)]="home.image" #ctrl="ngModel" (keyup.enter)="visionReq()" /> -->
+          <p><button class="useone" (click)="useMine()">Or use one of mine ></button></p>
+          <p *ngIf="home.image.length > 0" class="load">Loading
+          <app-loading></app-loading>
+          </p>
+        </section>
       </div>
 
       <ng-template #remove>
@@ -60,7 +52,7 @@
     <div *ngIf="home.desc">
       <h3>Alt text:</h3>
       <p role="status"><span class="screen-reader-only">Generated alt text:</span> text here</p>
-      <!-- <img :src="image" :alt="altText" ref="alttextimg" /> -->
+      <img [src]="home.image" [alt]="home.altText" />
     </div>
   </main>
 
