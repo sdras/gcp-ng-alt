@@ -1,4 +1,8 @@
-# AngularHttpclient
+# Google Clould Vision API with Angular
+
+User generated content doesn't always have alt text, which is particularly problematic when there's text in the image. This project creates alt text from an image with Google Cloud's Vision API in an Angular Application.
+
+Hopefully this allows good alt text to be a bit more ubiquitous.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.6.
 
