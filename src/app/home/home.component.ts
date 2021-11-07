@@ -13,10 +13,7 @@ import { Subject } from 'rxjs';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   home: Home = {
-    textdesc: {},
-    desc: "",
     image: "",
-    combinedText: "",
     noText: false,
     noText2: false,
     altText: ""
@@ -24,24 +21,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   analysis: any = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-  }
-
-  alttext() {
-    // if (Object.keys(this.home.textdesc).length > 0) {
-    //   let textarr = [];
-    //   this.home.textdesc.regions.forEach(region => {
-    //     region.lines.forEach(line => {
-    //       line.words.forEach(word => {
-    //         textarr.push(word.text);
-    //       });
-    //     });
-    //   });
-    //   return textarr.join(" ");
-    // }
   }
 
   apiReq(params:any, urlPath:any) {
@@ -50,38 +32,28 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   visionReq() {
-    this.dataService.sendGetRequest().pipe(takeUntil(this.destroy$)).subscribe((data) => {
+    console.log('visionReq called')
+    this.dataService.sendGetRequest(this.home.image).pipe(takeUntil(this.destroy$)).subscribe((data) => {
       console.log(data);
       console.log(environment.production);
       this.analysis = data;
+      console.log(`analysis: ${data}`)
+      this.home.altText = this.analysis.analysis
     })  
-
-    // await this.apiReq(param1, "ocr").then(response => {
-    //   if (response.status === 200) {
-    //     this.home.textdesc = response.data;
-    //   } else {
-    //     this.home.noText = true;
-    //   }
-    // })
-
-    // await this.apiReq(param2, "analyze").then(response => {
-    //   if (response.status === 200) {
-    //     this.home.desc = response.data.description.captions[0].text;
-    //   } else {
-    //     this.home.noText2 = true;
-    //   }
-    // })
   }
 
-  fileUpload(e:any) {
+  fileUpload(e: any) {
+    console.log('file upload called')
     var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
+    console.log(files)
     this.home.image = files[0];
     this.createImage(e);
-    this.visionReq();
+    //this.visionReq();
   }
   
   useMine() {
+    console.log('use mine')
     this.home.image =
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg";
     this.visionReq();
@@ -102,10 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.home.image = "";
     this.home.noText = false;
     this.home.noText2 = false;
-    this.home.textdesc = {};
-    this.home.desc = "";
     this.home.altText = "";
-    this.home.combinedText = "";
 
     setTimeout(() => {
       //this.$refs.selectimg.focus();

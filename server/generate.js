@@ -1,7 +1,9 @@
 'use strict';
 
+const cors = require('cors'); 
 const express = require('express');
 const app = express();
+app.use(cors());
 const port = 3000;
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = '/Users/sdrasner/misc/ml-ai.json';
@@ -17,7 +19,7 @@ app.get('/analysis', async (req, res) => {
 
   // log the labels
   const labelArr = labels.map(label => label.description);
-  const labelDesc = `Google sees ${labelArr.slice(0, 3).join(', ')}`
+  const labelDesc = labelArr.slice(0, 3).join(', ')
 
   // perform text detection
   const [textRes] = await client.textDetection(req.query.image);
@@ -26,10 +28,7 @@ app.get('/analysis', async (req, res) => {
   const fullText = text.description.replace(/(\r\n|\n|\r)/gm, " ");
   
   const database = {
-    analysis: [
-      { 'labels': labelDesc },
-      { 'text': `Google reads ${fullText}` }
-    ]
+    analysis: `Google sees ${labelDesc}. Google reads ${fullText}`
   };
   console.log(JSON.stringify(database));
   res.json(database);

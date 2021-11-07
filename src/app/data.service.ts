@@ -27,8 +27,8 @@ export class DataService {
     return throwError(errorMessage);
   }
 
-  public sendGetRequest() {
-    let params = new HttpParams().set('image', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg');
+  public sendGetRequest(img: any) {
+    let params = new HttpParams().set('image', img);
     return this.httpClient.get(this.REST_API_SERVER, { params: params }).pipe(retry(3), catchError(this.handleError));
   }
 }

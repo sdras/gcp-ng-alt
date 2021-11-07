@@ -6,11 +6,13 @@
     <hr>
 
     <section *ngIf="!home.noText2">
-      <div *ngIf="!home.desc; else remove">
+      <div *ngIf="!home.altText; else remove">
         <section class="upload spacing">
           <h2 class="select" ref="selectimg">Select an image here: </h2>
           <input (ngModelChange)="fileUpload($event)" type="file" name="file" id="file" class="inputfile" />
-          <app-plusicon></app-plusicon>
+          <label for="file" aria-label="upload image" class="plus">
+            <app-plusicon></app-plusicon>
+          </label>
         </section>
         <!--upload-->
 
@@ -41,9 +43,9 @@
   </aside>
 
   <main>
-    <div *ngIf="home.desc">
+    <div *ngIf="home.altText">
       <h3>Alt text:</h3>
-      <p role="status"><span class="screen-reader-only">Generated alt text:</span> text here</p>
+      <p role="status"><span class="screen-reader-only">Generated alt text:</span> {{ home.altText }}</p>
       <img [src]="home.image" [alt]="home.altText" />
     </div>
   </main>

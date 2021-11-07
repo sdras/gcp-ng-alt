@@ -1,5 +1,3 @@
-<hr>
-
 <div (click)="moreInfo = !moreInfo" class="more">
   <button class="more" *ngIf="!moreInfo; else less">More info...</button>
   <ng-template #less><button class="more">Less info</button></ng-template>
