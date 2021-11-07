@@ -16,11 +16,10 @@
 
         <section class="spacing">
           <label for="url" style="padding-right: 10px;">Or enter a url:</label>
-          <input (keyup.enter)="visionReq()" type="text" id="url" />
+          <input [(ngModel)]="home.image" (keyup.enter)="visionReq()" type="text" id="url" />
         </section>
 
         <section class="spacing">
-          <!-- older version <input type="text" id="url" [(ngModel)]="home.image" #ctrl="ngModel" (keyup.enter)="visionReq()" /> -->
           <p><button class="useone" (click)="useMine()">Or use one of mine ></button></p>
           <p *ngIf="home.image.length > 0" class="load">Loading
           <app-loading></app-loading>
@@ -38,14 +37,7 @@
       <button (click)="removeImage($event)">Try again!</button>
     </section>
 
-    <hr>
-
-    <div (click)="home.moreInfo = !home.moreInfo" class="more">
-      <button class="more" *ngIf="!home.moreInfo; else less">More info...</button>
-      <ng-template #less><button class="more">Less info</button></ng-template>
-    </div>
-    <p *ngIf="home.moreInfo">User generated content doesn't always have alt text. Hopefully this allows good alt text to be
-      a bit more ubiquitous.</p>
+    <app-info></app-info>
   </aside>
 
   <main>

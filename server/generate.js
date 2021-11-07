@@ -1,45 +1,45 @@
 'use strict';
 
+const express = require('express');
+const app = express();
+const port = 3000;
+
 process.env.GOOGLE_APPLICATION_CREDENTIALS = '/Users/sdrasner/misc/ml-ai.json';
 
-function main() {
-  async function useVision() {
-    const database = { analysis: [] };
-    
-    const vision = require('@google-cloud/vision');
-    const client = new vision.ImageAnnotatorClient();
+app.get('/analysis', async (req, res) => {
+  const vision = require('@google-cloud/vision');
+  const client = new vision.ImageAnnotatorClient();
 
-    const [res] = await client.labelDetection(
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg'
-    );
+  const [labelRes] = await client.labelDetection(req.query.image);
 
-    // perform label detection
-    const labels = res.labelAnnotations;
+  // perform label detection
+  const labels = labelRes.labelAnnotations;
 
-    // log the labels
-    // console.log('Labels:');
-    const labelArr = labels.map(label => label.description);
-    const labelDesc = `Google sees ${labelArr.join(', ')}`
-    database.analysis.push({'labels': labelDesc})
+  // log the labels
+  const labelArr = labels.map(label => label.description);
+  const labelDesc = `Google sees ${labelArr.slice(0, 3).join(', ')}`
 
-    // perform text detection
-    const [result] = await client.textDetection(
-      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg'
-    );
-    const detections = result.textAnnotations;
-    const [text, ...others] = detections;
-    const fullText = text.description.replace(/(\r\n|\n|\r)/gm, " ");
-    database.analysis.push({'text': `Google reads ${fullText}`})
+  // perform text detection
+  const [textRes] = await client.textDetection(req.query.image);
+  const detections = textRes.textAnnotations;
+  const [text, ...others] = detections;
+  const fullText = text.description.replace(/(\r\n|\n|\r)/gm, " ");
+  
+  const database = {
+    analysis: [
+      { 'labels': labelDesc },
+      { 'text': `Google reads ${fullText}` }
+    ]
+  };
+  console.log(JSON.stringify(database));
+  res.json(database);
+})
 
-    console.log(JSON.stringify(database, null, 2));
-  }
-
-  useVision();
-}
+app.listen(port, () => {
+  console.log('Listening on port: ' + port);
+})
 
 process.on('unhandledRejection', err => {
   console.error(err.message);
   process.exitCode = 1;
 });
-
-main(...process.argv.slice(2));

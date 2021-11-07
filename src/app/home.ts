@@ -5,6 +5,5 @@ export interface Home {
   combinedText: string;
   noText: boolean;
   noText2: boolean;
-  moreInfo: boolean;
   altText: string;
 }

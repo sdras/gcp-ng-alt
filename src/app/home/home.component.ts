@@ -19,21 +19,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     combinedText: "",
     noText: false,
     noText2: false,
-    moreInfo: false,
     altText: ""
   };
 
-  products: any = [];
+  analysis: any = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.sendGetRequest().pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      console.log(data);
-       console.log(environment.production);
-      this.products = data;
-    })  
   }
 
   alttext() {
@@ -55,16 +49,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(urlPath)
   }
 
-  async visionReq() {
-    // let param1 = {
-    //   language: "unk",
-    //   "detectOrientation ": "true"
-    // }
-    // let param2 = {
-    //   visualFeatures: "Categories,Description,Color",
-    //   details: "",
-    //   language: "en"
-    // }
+  visionReq() {
+    this.dataService.sendGetRequest().pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      console.log(data);
+      console.log(environment.production);
+      this.analysis = data;
+    })  
 
     // await this.apiReq(param1, "ocr").then(response => {
     //   if (response.status === 200) {
@@ -126,5 +116,4 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

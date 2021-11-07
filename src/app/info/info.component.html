@@ -1,0 +1,8 @@
+<hr>
+
+<div (click)="moreInfo = !moreInfo" class="more">
+  <button class="more" *ngIf="!moreInfo; else less">More info...</button>
+  <ng-template #less><button class="more">Less info</button></ng-template>
+</div>
+<p *ngIf="moreInfo">User generated content doesn't always have alt text. Hopefully this allows good alt text to be
+  a bit more ubiquitous.</p>

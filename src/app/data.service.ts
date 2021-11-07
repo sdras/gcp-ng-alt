@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
 
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class DataService {
 
-  private REST_API_SERVER = "http://localhost:3000";
+  private REST_API_SERVER = "http://localhost:3000/analysis";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -27,7 +27,8 @@ export class DataService {
     return throwError(errorMessage);
   }
 
-  public sendGetRequest(){
-    return this.httpClient.get(this.REST_API_SERVER).pipe(retry(3), catchError(this.handleError));
+  public sendGetRequest() {
+    let params = new HttpParams().set('image', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg');
+    return this.httpClient.get(this.REST_API_SERVER, { params: params }).pipe(retry(3), catchError(this.handleError));
   }
 }
