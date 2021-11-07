@@ -10,7 +10,7 @@ function main() {
     const client = new vision.ImageAnnotatorClient();
 
     const [res] = await client.labelDetection(
-      'https://pbs.twimg.com/media/FDB8u6yWYAMr7DI?format=jpg&name=900x900'
+      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg'
     );
 
     // perform label detection
@@ -24,7 +24,7 @@ function main() {
 
     // perform text detection
     const [result] = await client.textDetection(
-      'https://pbs.twimg.com/media/FDB8u6yWYAMr7DI?format=jpg&name=900x900'
+      'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg'
     );
     const detections = result.textAnnotations;
     const [text, ...others] = detections;
