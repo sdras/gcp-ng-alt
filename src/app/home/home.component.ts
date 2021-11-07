@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { DataService } from '../data.service';
 import { Home } from '../home'
@@ -14,9 +14,8 @@ import { Subject } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   home: Home = {
     image: "",
-    noText: false,
-    noText2: false,
-    altText: ""
+    altText: "",
+    uiState: "idle"
   };
 
   analysis: any = [];
@@ -24,11 +23,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-  }
-
-  apiReq(params:any, urlPath:any) {
-    console.log(params)
-    console.log(urlPath)
   }
 
   visionReq() {
@@ -42,6 +36,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     })  
   }
 
+  useMine() {
+    console.log('use mine')
+    this.home.image =
+      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg";
+    this.visionReq();
+  }
+
   fileUpload(e: any) {
     console.log('file upload called')
     var files = e.target.files || e.dataTransfer.files;
@@ -50,13 +51,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.home.image = files[0];
     this.createImage(e);
     //this.visionReq();
-  }
-  
-  useMine() {
-    console.log('use mine')
-    this.home.image =
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/heygirl.jpg";
-    this.visionReq();
   }
   
   createImage(e:any) {
@@ -72,9 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   
   removeImage(e:any) {
     this.home.image = "";
-    this.home.noText = false;
-    this.home.noText2 = false;
     this.home.altText = "";
+    this.home.uiState = "idle"
 
     setTimeout(() => {
       //this.$refs.selectimg.focus();

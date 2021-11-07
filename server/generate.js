@@ -30,7 +30,6 @@ app.get('/analysis', async (req, res) => {
   const database = {
     analysis: `Google sees ${labelDesc}. Google reads ${fullText}`
   };
-  console.log(JSON.stringify(database));
   res.json(database);
 })
 

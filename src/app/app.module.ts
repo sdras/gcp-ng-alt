@@ -9,6 +9,7 @@ import { PlusiconComponent } from './plusicon/plusicon.component';
 import { LoadingComponent } from './loading/loading.component';
 import { FormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
+import { TitleComponent } from './title/title.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { InfoComponent } from './info/info.component';
     HomeComponent,
     PlusiconComponent,
     LoadingComponent,
-    InfoComponent
+    InfoComponent,
+    TitleComponent
   ],
   imports: [
     AppRoutingModule,

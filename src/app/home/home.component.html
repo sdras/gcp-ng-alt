@@ -1,11 +1,8 @@
 <div id="app">
   <aside>
-    <h1 class="nobottom">Dynamically Generated Alt Text<br>
-      <span>With Google Cloud Vision API</span>
-    </h1>
-    <hr>
+    <app-title></app-title>
 
-    <section *ngIf="!home.noText2">
+    <section>
       <div *ngIf="!home.altText; else remove">
         <section class="upload spacing">
           <h2 class="select" ref="selectimg">Select an image here: </h2>
@@ -34,12 +31,10 @@
       </ng-template>
     </section>
 
-    <section *ngIf="home.noText && home.noText2" class="fail">
+    <section *ngIf="home.image && !home.altText" class="fail">
       <p>Nothing was detected!<br> Sorry about that, care to...</p>
       <button (click)="removeImage($event)">Try again!</button>
     </section>
-
-    <app-info></app-info>
   </aside>
 
   <main>
